@@ -6,7 +6,8 @@
         ul = document.querySelector("ul"),
         start = document.querySelector(".start"),
         puzzleCont = document.querySelector(".puzzle-container"),
-        solvedBG = document.querySelector(".unsolved");
+        unsolvedBG = document.querySelector(".unsolved"),
+        solvedBG = document.querySelector(".solved");
   let hints = document.querySelector(".hints-left");
 
   const timer = num => {
@@ -45,19 +46,33 @@
 
   const showHint = () => {
     let hintsLeft,
-        hintsLeftText = document.querySelector(".hint-details");
+        hintsLeftText = document.querySelector(".hint-details"),
+        fired = false;
 
-    document.body.addEventListener("keypress", (e) => {
+    document.body.addEventListener("keydown", (e) => {
       if (e.keyCode === 104 || e.keyCode === 72) {
-        hintsLeft = parseInt(hints.innerText);
-        if (hintsLeft > 0) {
-          hints.innerText = hintsLeft - 1;
-        } else {
-          hintsLeftText.innerHTML = "Oops, no more hints.";
+        if (!fired) {
+          fired = true;
+          hintsLeft = parseInt(hints.innerText);
+          if (hintsLeft > 0) {
+            hints.innerText = hintsLeft - 1;
+            solvedBG.classList.remove("hide-bg");
+            unsolvedBG.classList.add("hide-bg");
+          } else {
+            hintsLeftText.innerHTML = "Oops, no more hints.";
+          }
         }
       }
       hints = hints;
     });
+    document.body.addEventListener("keyup", showAfterKey);
+    function showAfterKey () {
+      if (hintsLeft >= 1) {
+        fired = false;
+        solvedBG.classList.add("hide-bg");
+        unsolvedBG.classList.remove("hide-bg");
+      }
+    }
   };
 
   const selectLevel = () => {
@@ -118,7 +133,7 @@
     initiateFun();
     function initiateFun () {
       image.classList.remove("hide-bg");
-      solvedBG.classList.add("hide-bg");
+      unsolvedBG.classList.add("hide-bg");
       puzzleCont.classList.add("flash");
       audio.play();
     }
@@ -126,10 +141,10 @@
       audio.pause();
       window.clearTimeout(audioTimer);
       image.classList.add("hide-bg");
-      solvedBG.classList.remove("hide-bg");
+      unsolvedBG.classList.remove("hide-bg");
       puzzleCont.classList.remove("flash");
     }
-    audioTimer = setTimeout(endFun,10000);
+    audioTimer = setTimeout(endFun,20000);
     stop.addEventListener("click",endFun);
   };
 
