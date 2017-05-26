@@ -37,7 +37,6 @@
           clearInterval(updateClock);
         }
       };
-      runTime();
       const updateClock = setInterval(runTime, 1000);
       Window.updateClock = updateClock;
     };

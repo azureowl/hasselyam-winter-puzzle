@@ -12,3 +12,12 @@
    background-color: #009688;
  }
 }
+
+@keyframes celebrate {
+  0% {
+    transform: rotate3d(1, 2, 1, 0);
+  }
+  100% {
+    transform: rotate3d(1, 2, 1, 360deg);
+  }
+}
