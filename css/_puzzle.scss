@@ -145,11 +145,14 @@ ul.disabled {
 
 .tray {
   align-self: flex-end;
-  background-color: red;
   height: 5em;
   margin-top: 5em;
   position: absolute;
   width: 100%;
+}
+
+.tray > img {
+  position: absolute;
 }
 
 .honeycomb {

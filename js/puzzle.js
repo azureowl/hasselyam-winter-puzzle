@@ -1,5 +1,4 @@
 (function() {
-
   const stop = document.querySelector(".stop"),
         clock = document.querySelector(".time"),
         input = document.querySelector("input"),
@@ -16,9 +15,9 @@
           endTime = new Date().setMinutes(currMin + chosenTime);
 
     const timeRemaining = stopTime => {
-      const ms = endTime - Date.parse(new Date());
-      const seconds = Math.floor((ms/1000) % 60);
-      const minutes = Math.floor((ms/1000/60) % 60);
+      const ms = endTime - Date.parse(new Date()),
+            seconds = Math.floor((ms/1000) % 60),
+            minutes = Math.floor((ms/1000/60) % 60);
       // console.log(minutes, seconds);
       return {
         total: ms,
@@ -29,9 +28,9 @@
 
     const startTimer = (el, stopTime) => {
       const runTime = () => {
-        const time = timeRemaining(endTime);
-        const min = ("0" + time.minutes).slice(-2);
-        const sec = ("0" + time.seconds).slice(-2);
+        const time = timeRemaining(endTime),
+              min = ("0" + time.minutes).slice(-2),
+              sec = ("0" + time.seconds).slice(-2);
         clock.innerHTML = `${min}:${sec}`;
         if(time.total-1000 <= 0){
           clearInterval(updateClock);
@@ -103,6 +102,7 @@
     function initialize () {
       const level = selectLevel();
       if (!isNaN(parseInt(level))) {
+        shufflePieces();
         timer(parseInt(level));
       }
       if (level === "No Hassel") {
@@ -112,6 +112,21 @@
       ul.classList.add("class","disabled");
     }
     endGame();
+  };
+
+  const shufflePieces = () => {
+    const pieces = Array.from(document.querySelectorAll("[data-piece]")),
+          tray = document.querySelector(".tray");
+
+    for (var i = 0; i < pieces.length; i++) {
+      let piece = pieces[i].children[0],
+          left = Math.floor(Math.random() * (80 - 20) + 20),
+          top = Math.floor(Math.random() * (50 - 1) + 1);
+      tray.appendChild(piece);
+      piece.style.left = `${left}%`;
+      piece.style.top = `${top}%`;
+    }
+
   };
 
   const endGame = () => {
@@ -150,6 +165,4 @@
   showHint();
   initiateTimer();
   selectLevel();
-
-
 }());
