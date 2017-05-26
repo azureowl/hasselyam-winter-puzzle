@@ -92,7 +92,7 @@
         timer(parseInt(level));
       }
       if (level === "No Hassel") {
-        hasselbrate(level);
+        celebrate(".hassel");
       }
       input.setAttribute("disabled","disabled");
       ul.classList.add("class","disabled");
@@ -111,26 +111,26 @@
     }
   };
 
-  const hasselbrate = (type) => {
-    const hassel = document.querySelector(".hassel"),
-    audio = new Audio('audio/krtheme.wav');
+  const celebrate = (className) => {
+    const image = document.querySelector(className),
+          audio = new Audio('audio/krtheme.wav');
     let audioTimer;
-    // if (type === "No Hassel") {
-    //
-    // }
-    hassel.classList.remove("hide-bg");
-    solvedBG.classList.add("hide-bg");
-    puzzleCont.classList.add("flash");
-    audio.play();
-    function stopAudio () {
+    initiateFun();
+    function initiateFun () {
+      image.classList.remove("hide-bg");
+      solvedBG.classList.add("hide-bg");
+      puzzleCont.classList.add("flash");
+      audio.play();
+    }
+    function endFun() {
       audio.pause();
       window.clearTimeout(audioTimer);
-      hassel.classList.add("hide-bg");
+      image.classList.add("hide-bg");
       solvedBG.classList.remove("hide-bg");
       puzzleCont.classList.remove("flash");
     }
-    audioTimer = setTimeout(stopAudio,10000);
-    stop.addEventListener("click",stopAudio);
+    audioTimer = setTimeout(endFun,10000);
+    stop.addEventListener("click",endFun);
   };
 
   showHint();
