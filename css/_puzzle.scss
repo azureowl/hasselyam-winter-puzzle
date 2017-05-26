@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css?family=Khula:300,400');
+$hp: #d33668;
+$bg: #1d1318;
+$mint: #8acea5;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #0b0d0c;
+  color: $hp;
+  font-family: 'Khula', sans-serif;
+}
+
+ul {
+  color: $mint;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  list-style: none;
+  margin: 0 0 0 -3.2em;
+  padding: 0;
+}
+
+li span {
+  margin-left: .5em;
+}
+
+ul.disabled {
+  color: gray;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.game-container, .clock-container {
+  display: flex;
+  justify-content: center;
+}
+
+.dashboard {
+  align-items: center;
+  background-color: #070505;
+  background-color: #281a22;
+  box-shadow: inset 0 0 0em .3em $bg;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  justify-content: space-around;
+  padding: 1em;
+  width: 15em;
+}
+
+.puzzle-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.puzzle-container.flash {
+  animation: flash .3s linear infinite;
+}
+
+.game-container > div {
+  margin-bottom: 1em;
+}
+
+.dashboard > span:first-child {
+  font-size: 1.3em;
+  text-align: center;
+}
+
+.clock-container:before {
+  content: '';
+  height: 0;
+  position: relative;
+  width: 15em;
+}
+
+.clock {
+  align-items: baseline;
+  align-self: center;
+  display: flex;
+  flex-shrink: 0;
+  font-size: 2em;
+  justify-content: center;
+  width: 868px;
+}
+
+.clock .fa-snowflake-o {
+  color: #460e1e;
+  margin: 0 .3em;
+}
+
+.level-settings {
+  display: flex;
+  height: 8em;
+  & input {
+    height: 11em;
+    transform: rotate(90deg);
+    width: 11em;
+  }
+  margin-bottom: 2em;
+}
+
+.start, .stop {
+  cursor: pointer;
+  transition: transform .2s;
+}
+
+.start:hover, .stop:hover {
+  color: $mint;
+}
+
+.start:active, .stop:active {
+  transform: scale(.95);
+}
+
+.dash {
+  background-color: $bg;
+  border: .3em solid $hp;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 5em;
+  width: 5em;
+}
+
+.hints-left {
+  margin-right: .3em;
+}
+
+.hide-bg {
+  display: none;
+}
+
+img:nth-child(3) {
+  opacity: .5;
+}

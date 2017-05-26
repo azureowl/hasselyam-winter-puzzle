@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://use.fontawesome.com/2e7b5ddcf5.js"></script>
+    <meta charset="utf-8">
+    <meta name="author" content="Ro Langam">
+    <title>Winter Puzzle</title>
+    <link rel="stylesheet" href="main.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+
+    <div class="main-container">
+      <div class="clock-container">
+        <span class="clock"><i class="fa fa-snowflake-o" aria-hidden="true"></i><span class="time">06:00</span><i class="fa fa-snowflake-o" aria-hidden="true"></i></span>
+      </div>
+      <div class="game-container">
+        <div class="dashboard">
+          <span>Levels</span>
+          <div class="level-settings">
+            <input type="range" name="level" min="1" max="3" step="1" value="2">
+            <ul>
+              <li data-level="6">- <span>Normal</span></li>
+              <li data-level="4">- <span>Hard</span></li>
+              <li data-level="">- <span>No Hassel</span></li>
+            </ul>
+          </div>
+
+          <span class="dash start">Start</span>
+          <span class="dash stop">Stop</span>
+          <span class="dash"><span class="hints-left">3</span> Hints</span>
+          <span class="status"></span>
+          <span class="hint-details">Press "H" for a hint</span>
+        </div>
+        <div class="puzzle-container">
+          <img class="puzzle-bg unsolved" src="puzzle/puzzle_unsolved.png" alt="">
+          <img class="puzzle-bg solved hide-bg" src="puzzle/puzzle_seal.png" alt="">
+          <img class="puzzle-bg hassel hide-bg" src="puzzle/puzzle_hassel.png" alt="">
+        </div>
+      </div>
+    </div>
+    <script src="js/puzzle.js" charset="utf-8"></script>
+  </body>
+</html>
