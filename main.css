@@ -117,6 +117,12 @@ button.dash {
   color: #d33668;
   font-size: 1em; }
 
+button.dash[disabled] {
+  color: gray;
+  cursor: default;
+  border-color: gray;
+  opacity: .2; }
+
 .hints-left {
   margin-right: .3em; }
 

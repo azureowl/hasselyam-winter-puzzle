@@ -53,7 +53,7 @@
       getHint(level);
       input.setAttribute("disabled","disabled");
       ul.classList.add("class","disabled");
-      
+      start.setAttribute("disabled","disabled");
       shufflePieces();
       createTimer(parseInt(level));
     }
@@ -238,6 +238,7 @@
       clearInterval(Window.updateClock);
       clock.innerHTML = `00:00`;
       input.removeAttribute("disabled");
+      start.removeAttribute("disabled");
       hints.innerText = 3;
       hints.classList.remove("hide");
       document.querySelector(".hint-details").classList.remove("hide");
