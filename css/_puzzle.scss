@@ -35,10 +35,6 @@ li span {
   margin-left: .5em;
 }
 
-ul.disabled {
-  color: gray;
-}
-
 .main-container {
   display: flex;
   flex-direction: column;
@@ -47,6 +43,7 @@ ul.disabled {
 .game-container, .clock-container {
   display: flex;
   justify-content: center;
+  position: relative;
 }
 
 .dashboard {
@@ -58,6 +55,7 @@ ul.disabled {
   flex-direction: column;
   flex-shrink: 0;
   justify-content: space-around;
+  overflow: hidden;
   padding: 1em;
   width: 15em;
 }
@@ -106,6 +104,7 @@ ul.disabled {
 .level-settings {
   display: flex;
   height: 8em;
+  transition: transform 1s;
   width: 100%;
   & input {
     height: 11em;
@@ -115,9 +114,26 @@ ul.disabled {
   margin-bottom: 2em;
 }
 
+.level-settings.transLeft {
+  transform: translateX(-20em);
+}
+
+.level-settings.transLeft ~ .dash {
+  transform: translateY(-10em);
+  transition: transform .5s;
+    &:nth-child(3) {
+      transition-delay: .2s;
+    }
+    &:nth-child(4) {
+      transition-delay: .3s;
+    }
+    &:nth-child(5) {
+      transition-delay: .4s;
+    }
+}
+
 .start, .reset {
   cursor: pointer;
-  transition: transform .2s;
 }
 
 .start:hover, .reset:hover {
@@ -134,13 +150,24 @@ ul.disabled {
   border-radius: 50%;
   display: flex;
   align-items: center;
-  justify-content: center;
   height: 5em;
+  justify-content: center;
+  transition: transform .5s;
   width: 5em;
+  &:nth-child(3) {
+    transition-delay: .3s;
+  }
+  &:nth-child(4) {
+    transition-delay: .2s;
+  }
+  &:nth-child(5) {
+    transition-delay: .1s;
+  }
 }
 
 button.dash {
   color: $hp;
+  display: initial;
   font-size: 1em;
 }
 
@@ -164,10 +191,11 @@ button.dash[disabled] {
 }
 
 .tray {
-  align-self: flex-end;
+  bottom: -6em;
   height: 5em;
-  margin-top: 5em;
+  left: 0;
   position: absolute;
+  right: 0;
   width: 100%;
 }
 
@@ -178,6 +206,7 @@ button.dash[disabled] {
 .honeycomb {
   height: 579px;
   position: absolute;
+  top: 0;
   width: 868px;
 }
 

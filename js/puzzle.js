@@ -58,7 +58,7 @@
     function initialize () {
       let level;
       level = selectLevel();
-      settings.classList.add("hide");
+      settings.classList.add("transLeft");
       start.setAttribute("disabled","disabled");
       clonePuzzle.clonePuzzle();
       getHint(level);
@@ -260,7 +260,7 @@
       clearInterval(celebrateTimer);
       clock.innerHTML = `0${selectLevel()}:00`;
       start.removeAttribute("disabled");
-      settings.classList.remove("hide");
+      settings.classList.remove("transLeft");
     }
   };
 

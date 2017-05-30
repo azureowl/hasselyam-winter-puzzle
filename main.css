@@ -26,16 +26,14 @@ ul {
 li span {
   margin-left: .5em; }
 
-ul.disabled {
-  color: gray; }
-
 .main-container {
   display: flex;
   flex-direction: column; }
 
 .game-container, .clock-container {
   display: flex;
-  justify-content: center; }
+  justify-content: center;
+  position: relative; }
 
 .dashboard {
   align-items: center;
@@ -46,6 +44,7 @@ ul.disabled {
   flex-direction: column;
   flex-shrink: 0;
   justify-content: space-around;
+  overflow: hidden;
   padding: 1em;
   width: 15em; }
 
@@ -86,6 +85,7 @@ ul.disabled {
 .level-settings {
   display: flex;
   height: 8em;
+  transition: transform 1s;
   width: 100%;
   margin-bottom: 2em; }
   .level-settings input {
@@ -93,9 +93,21 @@ ul.disabled {
     transform: rotate(90deg);
     width: 11em; }
 
+.level-settings.transLeft {
+  transform: translateX(-20em); }
+
+.level-settings.transLeft ~ .dash {
+  transform: translateY(-10em);
+  transition: transform .5s; }
+  .level-settings.transLeft ~ .dash:nth-child(3) {
+    transition-delay: .2s; }
+  .level-settings.transLeft ~ .dash:nth-child(4) {
+    transition-delay: .3s; }
+  .level-settings.transLeft ~ .dash:nth-child(5) {
+    transition-delay: .4s; }
+
 .start, .reset {
-  cursor: pointer;
-  transition: transform .2s; }
+  cursor: pointer; }
 
 .start:hover, .reset:hover {
   color: #8acea5; }
@@ -109,12 +121,20 @@ ul.disabled {
   border-radius: 50%;
   display: flex;
   align-items: center;
-  justify-content: center;
   height: 5em;
+  justify-content: center;
+  transition: transform .5s;
   width: 5em; }
+  .dash:nth-child(3) {
+    transition-delay: .3s; }
+  .dash:nth-child(4) {
+    transition-delay: .2s; }
+  .dash:nth-child(5) {
+    transition-delay: .1s; }
 
 button.dash {
   color: #d33668;
+  display: initial;
   font-size: 1em; }
 
 button.dash[disabled] {
@@ -133,10 +153,11 @@ button.dash[disabled] {
   opacity: .5; }
 
 .tray {
-  align-self: flex-end;
+  bottom: -6em;
   height: 5em;
-  margin-top: 5em;
+  left: 0;
   position: absolute;
+  right: 0;
   width: 100%; }
 
 .tray img {
@@ -145,6 +166,7 @@ button.dash[disabled] {
 .honeycomb {
   height: 579px;
   position: absolute;
+  top: 0;
   width: 868px; }
 
 .hc-col {
