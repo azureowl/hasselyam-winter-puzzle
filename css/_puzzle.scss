@@ -13,6 +13,14 @@ body {
   font-family: 'Khula', sans-serif;
 }
 
+button {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  outline: 0;
+}
+
 ul {
   color: $mint;
   display: flex;
@@ -129,6 +137,11 @@ ul.disabled {
   justify-content: center;
   height: 5em;
   width: 5em;
+}
+
+button.dash {
+  color: $hp;
+  font-size: 1em;
 }
 
 .hints-left {

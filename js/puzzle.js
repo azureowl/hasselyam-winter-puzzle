@@ -13,7 +13,6 @@
         puzzleSolvedSound = document.getElementById('solved-100');
     let hints = document.querySelector(".hints-left");
 
-
   const createTimer = num => {
     const chosenTime = num,
           currMin = new Date().getMinutes(),
@@ -46,8 +45,6 @@
     updateTimer(".time", endTime);
   };
 
-
-
   const initiateTimer = () => {
     start.addEventListener("click",initialize);
     function initialize () {
@@ -56,21 +53,18 @@
       getHint(level);
       input.setAttribute("disabled","disabled");
       ul.classList.add("class","disabled");
+      
       shufflePieces();
       createTimer(parseInt(level));
     }
     endGame();
   };
 
-
-
   const createTray = () => {
     const tray = document.createElement("div");
     tray.setAttribute("id","tray");
     trayParent.appendChild(tray);
   };
-
-
 
   const startDrag = {
     init: function () {
@@ -95,8 +89,6 @@
     }
   };
 
-
-
   const validDropZones = {
     init: function () {
       this.cacheDOM();
@@ -109,8 +101,8 @@
       tray.addEventListener("dragover", this.dragItem);
       tray.addEventListener("drop", this.dropItem);
       for (var i = 0; i < this.cell.length; i++) {
-        this.cell[i].addEventListener("dragover", this.dragItem);
-        this.cell[i].addEventListener("drop", this.dropItem);
+        this.cell[i].addEventListener("dragover", this.dragItem.bind(this));
+        this.cell[i].addEventListener("drop", this.dropItem.bind(this));
       }
     },
     dragItem: function (e) {
@@ -131,12 +123,14 @@
       else {
         dropTileTray.play();
       }
-      // check if the tray is empty
-      // check.checkTray();
+      this.checkTray();
+    },
+    checkTray: function () {
+      if (tray.children.length === 0) {
+        // celebrate();
+      }
     }
   };
-
-
 
   const getHint = (lvl) => {
     let hintsLeft,
@@ -172,15 +166,13 @@
       }
     }
 
-    if (lvl === 4) {
+    if (lvl === 4 || lvl === 1) {
       hints.classList.add("hide");
       document.querySelector(".hint-details").classList.add("hide");
       document.body.removeEventListener("keydown",showHint);
       document.body.removeEventListener("keyup", hideHint);
     }
   };
-
-
 
   const selectLevel = () => {
     const li = Array.from(document.querySelectorAll("[data-level]"));
@@ -206,22 +198,20 @@
     return selected;
   };
 
-
-
   const shufflePieces = () => {
     const pieces = Array.from(document.querySelectorAll("[data-piece]"));
 
     for (var i = 0; i < pieces.length; i++) {
       let piece = pieces[i].children[0],
           left = Math.floor(Math.random() * (80 - 20) + 20),
-          top = Math.floor(Math.random() * (50 - 1) + 1);
+          top = Math.floor(Math.random() * (50 - 1) + 1),
+          zindex = Math.floor(Math.random() * (40 - 1) + 1);
       tray.appendChild(piece);
       piece.style.left = `${left}%`;
       piece.style.top = `${top}%`;
+      piece.style.zIndex = zindex;
     }
   };
-
-
 
 
   const clonePuzzle = {
@@ -239,8 +229,6 @@
     }
   };
 
-
-
   const endGame = () => {
     stop.addEventListener("click",endGame);
     function endGame () {
@@ -256,8 +244,6 @@
       ul.classList.remove("class","disabled");
     }
   };
-
-
 
   const celebrate = (className) => {
     const image = document.querySelector(className),
