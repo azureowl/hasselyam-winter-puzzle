@@ -7,6 +7,7 @@
         puzzleCont = document.querySelector(".puzzle-container"),
         unsolvedBG = document.querySelector(".unsolved"),
         solvedBG = document.querySelector(".solved"),
+        li = Array.from(document.querySelectorAll("[data-level]")),
         hintsLeftText = document.querySelector(".hint-details"),
         sealBG = document.querySelector(".seal"),
         dropSuccessAudio = document.getElementById('drop-tile-board'),
@@ -68,7 +69,6 @@
   };
 
   const selectLevel = () => {
-    const li = Array.from(document.querySelectorAll("[data-level]"));
     let selected;
 
     if (input.value === "1") {
@@ -161,6 +161,7 @@
   function checkTray () {
     if (tray.children.length === 0) {
       celebrate.init();
+      resetAuto();
     }
     return false;
   }
@@ -245,6 +246,8 @@
     },
     endGame: function () {
       clonePuzzle.replace();
+      startDrag.init();
+      validDropZones.init();
       trayParent.removeChild(tray);
       createTray();
       resetHint();
@@ -255,7 +258,7 @@
       resetAudio();
       clearInterval(Window.updateClock);
       clearInterval(celebrateTimer);
-      clock.innerHTML = `00:00`;
+      clock.innerHTML = `0${selectLevel()}:00`;
       start.removeAttribute("disabled");
       settings.classList.remove("hide");
     }
@@ -301,7 +304,6 @@
     },
     finish: function () {
       this.n = 0;
-      resetAuto = window.setTimeout(endGame.endGame,4000);
     }
   };
 
@@ -311,6 +313,11 @@
     trayParent.removeChild(tray);
     createTray();
     celebrate.init();
+    resetAuto();
+  }
+
+  function resetAuto () {
+    let resetAuto = window.setTimeout(endGame.endGame,9000);
   }
 
   clonePuzzle.clonePuzzle();
