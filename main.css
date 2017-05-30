@@ -159,29 +159,25 @@ ul.disabled {
   width: 110px;
   height: 95px; }
 
-.hc-col:nth-child(odd) .hc-cell {
-  background-color: rgba(0, 0, 255, 0.5); }
-  .hc-col:nth-child(odd) .hc-cell-1 {
-    top: 2.9em; }
-  .hc-col:nth-child(odd) .hc-cell-2 {
-    top: 8.95em; }
-  .hc-col:nth-child(odd) .hc-cell-3 {
-    top: 15em; }
-  .hc-col:nth-child(odd) .hc-cell-4 {
-    top: 21em; }
-  .hc-col:nth-child(odd) .hc-cell-5 {
-    top: 27.1em; }
+.hc-col:nth-child(odd) .hc-cell-1 {
+  top: 2.9em; }
+.hc-col:nth-child(odd) .hc-cell-2 {
+  top: 8.95em; }
+.hc-col:nth-child(odd) .hc-cell-3 {
+  top: 15em; }
+.hc-col:nth-child(odd) .hc-cell-4 {
+  top: 21em; }
+.hc-col:nth-child(odd) .hc-cell-5 {
+  top: 27.1em; }
 
-.hc-col:nth-child(even) .hc-cell {
-  background-color: rgba(0, 255, 0, 0.5); }
-  .hc-col:nth-child(even) .hc-cell-1 {
-    top: 5.9em; }
-  .hc-col:nth-child(even) .hc-cell-2 {
-    top: 12em; }
-  .hc-col:nth-child(even) .hc-cell-3 {
-    top: 18em; }
-  .hc-col:nth-child(even) .hc-cell-4 {
-    top: 24em; }
+.hc-col:nth-child(even) .hc-cell-1 {
+  top: 5.9em; }
+.hc-col:nth-child(even) .hc-cell-2 {
+  top: 12em; }
+.hc-col:nth-child(even) .hc-cell-3 {
+  top: 18em; }
+.hc-col:nth-child(even) .hc-cell-4 {
+  top: 24em; }
 
 @keyframes flash {
   0% {

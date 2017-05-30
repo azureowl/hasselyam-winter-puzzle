@@ -55,9 +55,9 @@
         shufflePieces();
         createTimer(parseInt(level));
       }
-      if (level === "No Hassel") {
-        celebrate(".hassel");
-      }
+      // if (level === "No Hassel") {
+      //   celebrate(".hassel");
+      // }
       input.setAttribute("disabled","disabled");
       ul.classList.add("class","disabled");
     }
@@ -179,16 +179,16 @@
       selected = 4;
     }
     if (input.value === "3") {
-      selected = "No Hassel";
+      selected = 1;
     }
-
-    // NOTE: Get the range value and use it as the list's index to grab each li's minutes for timer preview
-    input.addEventListener("input", function (e) {
-      const val = li[e.target.value-1],
-            minutesDisplay = val.dataset.level;
-      clock.innerHTML = `0${minutesDisplay}:00`;
-    });
-
+    showTimerPreview();
+    function showTimerPreview () {
+      input.addEventListener("input", function (e) {
+        const val = li[e.target.value-1],
+              minutesDisplay = val.dataset.level;
+        clock.innerHTML = `0${minutesDisplay}:00`;
+      });
+    }
     return selected;
   };
 

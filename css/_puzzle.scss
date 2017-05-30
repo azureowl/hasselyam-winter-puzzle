@@ -203,7 +203,7 @@ ul.disabled {
 }
 
 .hc-col:nth-child(odd) .hc-cell {
-  background-color: rgba(0,0,255,.5);
+  // background-color: rgba(0,0,255,.5);
   &-1 {
     top: 2.9em;
   }
@@ -226,7 +226,7 @@ ul.disabled {
 }
 
 .hc-col:nth-child(even) .hc-cell {
-  background-color: rgba(0,255,0,.5);
+  // background-color: rgba(0,255,0,.5);
   &-1 {
     top: 5.9em;
   }
