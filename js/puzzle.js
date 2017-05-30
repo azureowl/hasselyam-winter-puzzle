@@ -2,14 +2,17 @@
   const stop = document.querySelector(".stop"),
         clock = document.querySelector(".time"),
         input = document.querySelector("input"),
-        ul = document.querySelector("ul"),
         start = document.querySelector(".start"),
+        ul = document.querySelector("ul"),
+        trayParent = document.querySelector(".tray"),
         puzzleCont = document.querySelector(".puzzle-container"),
         unsolvedBG = document.querySelector(".unsolved"),
         solvedBG = document.querySelector(".solved"),
         dropTileBoard = document.getElementById('drop-tile-board'),
         dropTileTray = document.getElementById('drop-tile-tray'),
-        puzzleSolvedSound = document.getElementById('solved-100');
+        puzzleSolvedSound = document.getElementById('solved-100'),
+        divClone = document.querySelector(".honeycomb"),
+        saved = divClone.cloneNode(true);
     let hints = document.querySelector(".hints-left");
 
 
@@ -66,6 +69,14 @@
 
 
 
+  const createTray = () => {
+    const tray = document.createElement("div");
+    tray.setAttribute("id","tray");
+    trayParent.appendChild(tray);
+  };
+
+
+
   const startDrag = {
     init: function () {
       this.cacheDOM();
@@ -91,18 +102,17 @@
 
 
 
-  var validDropZones = {
+  const validDropZones = {
     init: function () {
       this.cacheDOM();
       this.bindEvents();
     },
     cacheDOM: function () {
-      this.tray = document.querySelector(".tray");
       this.cell = document.getElementsByClassName("hc-cell");
     },
     bindEvents: function () {
-      this.tray.addEventListener("dragover", this.dragItem);
-      this.tray.addEventListener("drop", this.dropItem);
+      tray.addEventListener("dragover", this.dragItem);
+      tray.addEventListener("drop", this.dropItem);
       for (var i = 0; i < this.cell.length; i++) {
         this.cell[i].addEventListener("dragover", this.dragItem);
         this.cell[i].addEventListener("drop", this.dropItem);
@@ -195,8 +205,7 @@
 
 
   const shufflePieces = () => {
-    const pieces = Array.from(document.querySelectorAll("[data-piece]")),
-          tray = document.querySelector(".tray");
+    const pieces = Array.from(document.querySelectorAll("[data-piece]"));
 
     for (var i = 0; i < pieces.length; i++) {
       let piece = pieces[i].children[0],
@@ -211,8 +220,12 @@
 
 
   const endGame = () => {
+    const parentNode = divClone.parentNode;
     stop.addEventListener("click",endGame);
     function endGame () {
+      parentNode.replaceChild(saved,divClone);
+      trayParent.removeChild(tray);
+      createTray();
       clearInterval(Window.updateClock);
       clock.innerHTML = `00:00`;
       input.removeAttribute("disabled");
@@ -246,7 +259,7 @@
   };
 
 
-
+  createTray();
   getHint();
   initiateTimer();
   selectLevel();
