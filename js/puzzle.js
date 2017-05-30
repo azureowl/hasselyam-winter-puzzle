@@ -10,9 +10,7 @@
         solvedBG = document.querySelector(".solved"),
         dropTileBoard = document.getElementById('drop-tile-board'),
         dropTileTray = document.getElementById('drop-tile-tray'),
-        puzzleSolvedSound = document.getElementById('solved-100'),
-        divClone = document.querySelector(".honeycomb"),
-        saved = divClone.cloneNode(true);
+        puzzleSolvedSound = document.getElementById('solved-100');
     let hints = document.querySelector(".hints-left");
 
 
@@ -53,6 +51,7 @@
   const initiateTimer = () => {
     start.addEventListener("click",initialize);
     function initialize () {
+      clonePuzzle.clonePuzzle();
       const level = selectLevel();
       if (!isNaN(parseInt(level))) {
         shufflePieces();
@@ -219,11 +218,28 @@
 
 
 
+
+  const clonePuzzle = {
+    cacheDOM: function () {
+      this.honeycomb = document.querySelector(".honeycomb");
+    },
+    clonePuzzle: function () {
+      this.cacheDOM();
+      this.saved = this.honeycomb.cloneNode(true);
+      this.puzzleContainer = this.honeycomb.parentNode;
+    },
+    replace: function () {
+      this.puzzleContainer.replaceChild(this.saved,this.honeycomb);
+      this.clonePuzzle();
+    }
+  };
+
+
+
   const endGame = () => {
-    const parentNode = divClone.parentNode;
     stop.addEventListener("click",endGame);
     function endGame () {
-      parentNode.replaceChild(saved,divClone);
+      clonePuzzle.replace();
       trayParent.removeChild(tray);
       createTray();
       clearInterval(Window.updateClock);
@@ -258,7 +274,7 @@
     stop.addEventListener("click",endFun);
   };
 
-
+  clonePuzzle.clonePuzzle();
   createTray();
   getHint();
   initiateTimer();
