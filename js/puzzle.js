@@ -51,17 +51,13 @@
   const initiateTimer = () => {
     start.addEventListener("click",initialize);
     function initialize () {
-      clonePuzzle.clonePuzzle();
       const level = selectLevel();
-      if (!isNaN(parseInt(level))) {
-        shufflePieces();
-        createTimer(parseInt(level));
-      }
-      // if (level === "No Hassel") {
-      //   celebrate(".hassel");
-      // }
+      clonePuzzle.clonePuzzle();
+      getHint(level);
       input.setAttribute("disabled","disabled");
       ul.classList.add("class","disabled");
+      shufflePieces();
+      createTimer(parseInt(level));
     }
     endGame();
   };
@@ -142,27 +138,29 @@
 
 
 
-  const getHint = () => {
+  const getHint = (lvl) => {
     let hintsLeft,
         hintsLeftText = document.querySelector(".hint-details"),
         fired = false;
 
-    document.body.addEventListener("keydown", (e) => {
-      if (e.keyCode === 104 || e.keyCode === 72) {
-        if (!fired) {
-          fired = true;
-          hintsLeft = parseInt(hints.innerText);
-          if (hintsLeft > 0) {
-            hints.innerText = hintsLeft - 1;
-            solvedBG.classList.remove("hide-bg");
-            unsolvedBG.classList.add("hide-bg");
-          } else {
-            hintsLeftText.innerHTML = "Oops, no more hints.";
-          }
-        }
-      }
-      hints = hints;
-    });
+    document.body.addEventListener("keydown",showHint);
+
+    function showHint (e) {
+     if (e.keyCode === 104 || e.keyCode === 72) {
+       if (!fired) {
+         fired = true;
+         hintsLeft = parseInt(hints.innerText);
+         if (hintsLeft > 0) {
+           hints.innerText = hintsLeft - 1;
+           solvedBG.classList.remove("hide-bg");
+           unsolvedBG.classList.add("hide-bg");
+         } else {
+           hintsLeftText.innerHTML = "Oops, no more hints.";
+         }
+       }
+     }
+     hints = hints;
+    }
 
     document.body.addEventListener("keyup", hideHint);
 
@@ -172,6 +170,13 @@
         solvedBG.classList.add("hide-bg");
         unsolvedBG.classList.remove("hide-bg");
       }
+    }
+
+    if (lvl === 4) {
+      hints.classList.add("hide");
+      document.querySelector(".hint-details").classList.add("hide");
+      document.body.removeEventListener("keydown",showHint);
+      document.body.removeEventListener("keyup", hideHint);
     }
   };
 
@@ -246,6 +251,8 @@
       clock.innerHTML = `00:00`;
       input.removeAttribute("disabled");
       hints.innerText = 3;
+      hints.classList.remove("hide");
+      document.querySelector(".hint-details").classList.remove("hide");
       ul.classList.remove("class","disabled");
     }
   };
@@ -276,7 +283,6 @@
 
   clonePuzzle.clonePuzzle();
   createTray();
-  getHint();
   initiateTimer();
   selectLevel();
   startDrag.init();

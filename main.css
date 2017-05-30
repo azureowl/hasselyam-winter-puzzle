@@ -109,7 +109,7 @@ ul.disabled {
 .hints-left {
   margin-right: .3em; }
 
-.hide-bg {
+.hide-bg, .hide {
   display: none; }
 
 .hassel {
