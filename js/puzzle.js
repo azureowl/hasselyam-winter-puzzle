@@ -260,7 +260,7 @@
       clearInterval(celebrateTimer);
       clock.innerHTML = `0${selectLevel()}:00`;
       start.removeAttribute("disabled");
-      puzzleCont.classList.add("flash");
+      puzzleCont.classList.remove("flash");
       settings.classList.remove("transLeft");
     }
   };
