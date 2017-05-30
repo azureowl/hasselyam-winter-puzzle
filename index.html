@@ -12,7 +12,7 @@
 
     <div class="main-container">
       <div class="clock-container">
-        <span class="clock"><i class="fa fa-snowflake-o" aria-hidden="true"></i><span class="time">06:00</span><i class="fa fa-snowflake-o" aria-hidden="true"></i></span>
+        <span class="clock"><i class="fa fa-snowflake-o" aria-hidden="true"></i><span class="time">06:00</span><i class="fa fa-snowflake-o" id="magic" aria-hidden="true"></i></span>
       </div>
       <div class="game-container">
         <div class="dashboard">
@@ -22,21 +22,20 @@
             <ul>
               <li data-level="6">- <span>Normal</span></li>
               <li data-level="4">- <span>Hard</span></li>
-              <li data-level="1">- <span>Trollmode</span></li>
+              <li data-level="1">- <span>Godmode</span></li>
             </ul>
           </div>
 
           <button class="dash start">Start</button>
-          <button class="dash stop">Stop</button>
+          <button class="dash reset">Reset</button>
           <span class="dash"><span class="hints-left">3</span> Hints</span>
           <span class="status"></span>
           <span class="hint-details">Press "H" for a hint</span>
         </div>
         <div class="puzzle-container">
-          <img class="puzzle-bg unsolved" src="puzzle/puzzle_unsolved.png" alt="">
-          <img class="puzzle-bg solved hide-bg" src="puzzle/puzzle_solved.png" alt="">
-          <img class="puzzle-bg seal hide-bg" src="puzzle/puzzle_seal.png" alt="">
-          <img class="puzzle-bg hassel hide-bg" src="puzzle/puzzle_hassel.png" alt="">
+          <img class="puzzle-bg unsolved" src="puzzle/puzzle_unsolved.png" alt="unfinished puzzle">
+          <img class="puzzle-bg solved hide-bg" src="puzzle/puzzle_solved.png" alt="puzzle of snowy scene">
+          <img class="puzzle-bg seal hide-bg" src="puzzle/puzzle_hasselhoffYamSeal.png" alt="david hasselhoff seal hybrid">
           <div class="honeycomb">
             <div class="hc-col hc-col-1" data-col="1">
               <div class="hc-cell hc-cell-1" data-piece="p01"><img src="puzzle/piece_01.png" id="p01" /></div>
@@ -107,7 +106,8 @@
     <section class="sound-effects">
       <audio id="drop-tile-board" src="audio/click.mp3" preload="auto">Your browser does not support audio element!</audio>
       <audio id="drop-tile-tray" src="audio/tiny_button.mp3" preload="auto">Your browser does not support audio element!</audio>
-      <audio id="solved-100" src="audio/fireworks.mp3" preload="auto">Your browser does not support audio element!</audio>
+      <audio id="solved-100" src="audio/celebrate.mp3" preload="auto">Your browser does not support audio element!</audio>
+      <audio id="fail" src="audio/fail.mp3" preload="auto">Your browser does not support audio element!</audio>
     </section>
     <script src="js/puzzle.js" charset="utf-8"></script>
   </body>

@@ -55,7 +55,7 @@ ul.disabled {
   position: relative; }
 
 .puzzle-container.flash {
-  animation: flash .3s linear infinite; }
+  animation: flash .5s linear 13; }
 
 .game-container > div {
   margin-bottom: 1em; }
@@ -93,14 +93,14 @@ ul.disabled {
     transform: rotate(90deg);
     width: 11em; }
 
-.start, .stop {
+.start, .reset {
   cursor: pointer;
   transition: transform .2s; }
 
-.start:hover, .stop:hover {
+.start:hover, .reset:hover {
   color: #8acea5; }
 
-.start:active, .stop:active {
+.start:active, .reset:active {
   transform: scale(0.95); }
 
 .dash {
@@ -129,7 +129,7 @@ button.dash[disabled] {
 .hide-bg, .hide {
   display: none; }
 
-.hassel {
+.seal, .solved {
   opacity: .5; }
 
 .tray {
@@ -155,11 +155,11 @@ button.dash[disabled] {
   .hc-col-1 {
     left: 2.55em; }
   .hc-col-2 {
-    left: 7.9em; }
+    left: 7.8em; }
   .hc-col-3 {
     left: 13.1em; }
   .hc-col-4 {
-    left: 18.4em; }
+    left: 18.3em; }
   .hc-col-5 {
     left: 23.55em; }
   .hc-col-6 {
@@ -167,7 +167,7 @@ button.dash[disabled] {
   .hc-col-7 {
     left: 34.1em; }
   .hc-col-8 {
-    left: 39.3em; }
+    left: 39.35em; }
   .hc-col-9 {
     left: 44.6em; }
 
@@ -195,6 +195,13 @@ button.dash[disabled] {
   top: 18em; }
 .hc-col:nth-child(even) .hc-cell-4 {
   top: 24em; }
+
+img[src*=piece].celebrating {
+  backface-visibility: visible;
+  animation: celebrate 1s 2; }
+
+img[alt="mariostar"] {
+  opacity: .1; }
 
 @keyframes flash {
   0% {

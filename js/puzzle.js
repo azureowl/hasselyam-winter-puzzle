@@ -1,17 +1,21 @@
 (function() {
-  const stop = document.querySelector(".stop"),
+  const reset = document.querySelector(".reset"),
         clock = document.querySelector(".time"),
         input = document.querySelector("input"),
         start = document.querySelector(".start"),
-        ul = document.querySelector("ul"),
         trayParent = document.querySelector(".tray"),
         puzzleCont = document.querySelector(".puzzle-container"),
         unsolvedBG = document.querySelector(".unsolved"),
         solvedBG = document.querySelector(".solved"),
-        dropTileBoard = document.getElementById('drop-tile-board'),
-        dropTileTray = document.getElementById('drop-tile-tray'),
-        puzzleSolvedSound = document.getElementById('solved-100');
-    let hints = document.querySelector(".hints-left");
+        hintsLeftText = document.querySelector(".hint-details"),
+        sealBG = document.querySelector(".seal"),
+        dropSuccessAudio = document.getElementById('drop-tile-board'),
+        dropFailAudio = document.getElementById('drop-tile-tray'),
+        solvedAudio = document.getElementById('solved-100'),
+        failAudio = document.getElementById('fail'),
+        settings = document.querySelector(".level-settings");
+    let hints = document.querySelector(".hints-left"),
+        celebrateTimer;
 
   const createTimer = num => {
     const chosenTime = num,
@@ -37,6 +41,9 @@
         clock.innerHTML = `${min}:${sec}`;
         if(time.total-1000 <= 0){
           clearInterval(updateClock);
+          if (!checkTray()) {
+            failAudio.play();
+          }
         }
       };
       const updateClock = setInterval(runTime, 1000);
@@ -48,16 +55,40 @@
   const initiateTimer = () => {
     start.addEventListener("click",initialize);
     function initialize () {
-      const level = selectLevel();
+      let level;
+      level = selectLevel();
+      settings.classList.add("hide");
+      start.setAttribute("disabled","disabled");
       clonePuzzle.clonePuzzle();
       getHint(level);
-      input.setAttribute("disabled","disabled");
-      ul.classList.add("class","disabled");
-      start.setAttribute("disabled","disabled");
-      shufflePieces();
       createTimer(parseInt(level));
+      shufflePieces();
     }
-    endGame();
+    endGame.init();
+  };
+
+  const selectLevel = () => {
+    const li = Array.from(document.querySelectorAll("[data-level]"));
+    let selected;
+
+    if (input.value === "1") {
+      selected = 6;
+    }
+    if (input.value === "2") {
+      selected = 4;
+    }
+    if (input.value === "3") {
+      selected = 1;
+    }
+    showTimerPreview();
+    function showTimerPreview () {
+      input.addEventListener("input", function (e) {
+        const val = li[e.target.value-1],
+              minutesDisplay = val.dataset.level;
+        clock.innerHTML = `0${minutesDisplay}:00`;
+      });
+    }
+    return selected;
   };
 
   const createTray = () => {
@@ -96,14 +127,13 @@
     },
     cacheDOM: function () {
       this.cell = document.getElementsByClassName("hc-cell");
+      this.honeycomb = document.querySelector(".honeycomb");
     },
     bindEvents: function () {
       tray.addEventListener("dragover", this.dragItem);
       tray.addEventListener("drop", this.dropItem);
-      for (var i = 0; i < this.cell.length; i++) {
-        this.cell[i].addEventListener("dragover", this.dragItem.bind(this));
-        this.cell[i].addEventListener("drop", this.dropItem.bind(this));
-      }
+      this.honeycomb.addEventListener("dragover", this.dragItem.bind(this));
+      this.honeycomb.addEventListener("drop", this.dropItem.bind(this));
     },
     dragItem: function (e) {
       e.preventDefault();
@@ -111,34 +141,40 @@
     },
     dropItem: function (e) {
       e.preventDefault();
-      var movedPiece = e.dataTransfer.getData("text");
+      let movedPiece = e.dataTransfer.getData("text"),
+          pieceID = document.getElementById(movedPiece);
       if (e.target.parentNode.id === 'tray') {
-        e.target.parentNode.appendChild(document.getElementById(movedPiece));
-        dropTileTray.play();
+        e.target.parentNode.appendChild(pieceID);
+        dropFailAudio.play();
       }
       else if (movedPiece === e.target.getAttribute("data-piece")) {
-        e.target.appendChild(document.getElementById(movedPiece));
-        dropTileBoard.play();
+        e.target.appendChild(pieceID);
+        dropSuccessAudio.play();
       }
       else {
-        dropTileTray.play();
+        dropFailAudio.play();
       }
-      this.checkTray();
-    },
-    checkTray: function () {
-      if (tray.children.length === 0) {
-        // celebrate();
-      }
+      checkTray();
     }
   };
 
+  function checkTray () {
+    if (tray.children.length === 0) {
+      celebrate.init();
+    }
+    return false;
+  }
+
+  function toggleBG (toHide,toShow) {
+    toHide.classList.add("hide-bg");
+    toShow.classList.remove("hide-bg");
+  }
+
   const getHint = (lvl) => {
     let hintsLeft,
-        hintsLeftText = document.querySelector(".hint-details"),
         fired = false;
-
     document.body.addEventListener("keydown",showHint);
-
+    document.body.addEventListener("keyup", hideHint);
     function showHint (e) {
      if (e.keyCode === 104 || e.keyCode === 72) {
        if (!fired) {
@@ -146,61 +182,36 @@
          hintsLeft = parseInt(hints.innerText);
          if (hintsLeft > 0) {
            hints.innerText = hintsLeft - 1;
-           solvedBG.classList.remove("hide-bg");
-           unsolvedBG.classList.add("hide-bg");
-         } else {
-           hintsLeftText.innerHTML = "Oops, no more hints.";
+           toggleBG(unsolvedBG,solvedBG);
          }
        }
      }
      hints = hints;
     }
 
-    document.body.addEventListener("keyup", hideHint);
-
     function hideHint () {
       if (hintsLeft >= 1) {
         fired = false;
-        solvedBG.classList.add("hide-bg");
-        unsolvedBG.classList.remove("hide-bg");
+        toggleBG(solvedBG,unsolvedBG);
       }
     }
 
     if (lvl === 4 || lvl === 1) {
       hints.classList.add("hide");
-      document.querySelector(".hint-details").classList.add("hide");
+      hintsLeftText.classList.add("hide");
       document.body.removeEventListener("keydown",showHint);
       document.body.removeEventListener("keyup", hideHint);
     }
   };
 
-  const selectLevel = () => {
-    const li = Array.from(document.querySelectorAll("[data-level]"));
-    let selected;
-
-    if (input.value === "1") {
-      selected = 6;
-    }
-    if (input.value === "2") {
-      selected = 4;
-    }
-    if (input.value === "3") {
-      selected = 1;
-    }
-    showTimerPreview();
-    function showTimerPreview () {
-      input.addEventListener("input", function (e) {
-        const val = li[e.target.value-1],
-              minutesDisplay = val.dataset.level;
-        clock.innerHTML = `0${minutesDisplay}:00`;
-      });
-    }
-    return selected;
+  const resetHint = () => {
+    hints.innerText = 3;
+    hints.classList.remove("hide");
+    hintsLeftText.classList.remove("hide");
   };
 
   const shufflePieces = () => {
     const pieces = Array.from(document.querySelectorAll("[data-piece]"));
-
     for (var i = 0; i < pieces.length; i++) {
       let piece = pieces[i].children[0],
           left = Math.floor(Math.random() * (80 - 20) + 20),
@@ -212,7 +223,6 @@
       piece.style.zIndex = zindex;
     }
   };
-
 
   const clonePuzzle = {
     cacheDOM: function () {
@@ -229,44 +239,79 @@
     }
   };
 
-  const endGame = () => {
-    stop.addEventListener("click",endGame);
-    function endGame () {
+  const endGame = {
+    init: function () {
+      reset.addEventListener("click",this.endGame);
+    },
+    endGame: function () {
       clonePuzzle.replace();
       trayParent.removeChild(tray);
       createTray();
+      resetHint();
+      toggleBG(sealBG,unsolvedBG);
+      celebrate.finish();
+      solvedAudio.pause();
+      failAudio.pause();
+      resetAudio();
       clearInterval(Window.updateClock);
+      clearInterval(celebrateTimer);
       clock.innerHTML = `00:00`;
-      input.removeAttribute("disabled");
       start.removeAttribute("disabled");
-      hints.innerText = 3;
-      hints.classList.remove("hide");
-      document.querySelector(".hint-details").classList.remove("hide");
-      ul.classList.remove("class","disabled");
+      settings.classList.remove("hide");
     }
   };
 
-  const celebrate = (className) => {
-    const image = document.querySelector(className),
-          audio = new Audio('audio/krtheme.wav');
-    let audioTimer;
-    initiateFun();
-    function initiateFun () {
-      image.classList.remove("hide-bg");
-      unsolvedBG.classList.add("hide-bg");
+  function resetAudio () {
+    var audio = document.getElementsByTagName("audio");
+    for (var i = 0; i < audio.length; i++) {
+      audio[i].pause();
+      audio[i].currentTime = 0;
+    }
+  }
+
+  const celebrate = {
+    n: 0,
+    init: function () {
+      this.cacheDOM();
+      this.initiateFun();
+      this.pieceFlip();
+    },
+    cacheDOM: function () {
+      this.puzzlePieces = document.querySelectorAll('img[src*=piece]');
+    },
+    initiateFun: function () {
+      toggleBG(unsolvedBG,sealBG);
       puzzleCont.classList.add("flash");
-      audio.play();
+      solvedAudio.play();
+    },
+    pieceFlip: function () {
+      if (this.n < this.puzzlePieces.length) {
+        celebrateTimer = window.setTimeout(this.celebrate.bind(this), 100);
+      }
+      else {
+        this.finish();
+      }
+    },
+    celebrate: function () {
+      if (this.n < this.puzzlePieces.length) {
+        this.puzzlePieces[this.n].setAttribute('class', 'celebrating');
+        this.n++;
+        this.pieceFlip();
+      }
+    },
+    finish: function () {
+      this.n = 0;
+      resetAuto = window.setTimeout(endGame.endGame,4000);
     }
-    function endFun() {
-      audio.pause();
-      window.clearTimeout(audioTimer);
-      image.classList.add("hide-bg");
-      unsolvedBG.classList.remove("hide-bg");
-      puzzleCont.classList.remove("flash");
-    }
-    audioTimer = setTimeout(endFun,20000);
-    stop.addEventListener("click",endFun);
   };
+
+  document.getElementById("magic").addEventListener("click", solveInstant);
+  function solveInstant () {
+    clonePuzzle.replace();
+    trayParent.removeChild(tray);
+    createTray();
+    celebrate.init();
+  }
 
   clonePuzzle.clonePuzzle();
   createTray();
