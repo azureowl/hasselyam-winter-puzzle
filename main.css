@@ -146,11 +146,14 @@ button.dash[disabled] {
 .hints-left {
   margin-right: .3em; }
 
-.hide-bg, .hide {
+.hide-bg {
   display: none; }
 
 .seal, .solved {
   opacity: .5; }
+
+.invisible {
+  opacity: 0; }
 
 .tray {
   bottom: -6em;

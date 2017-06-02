@@ -16,7 +16,8 @@
         failAudio = document.getElementById('fail'),
         settings = document.querySelector(".level-settings");
     let hints = document.querySelector(".hints-left"),
-        celebrateTimer;
+        celebrateTimer,
+        initialized = false;
 
   const createTimer = num => {
     const chosenTime = num,
@@ -44,6 +45,7 @@
           clearInterval(updateClock);
           if (!checkTray()) {
             failAudio.play();
+            endGame.endGame();
           }
         }
       };
@@ -57,6 +59,7 @@
     start.addEventListener("click",initialize);
     function initialize () {
       let level;
+      initialized = true;
       level = selectLevel();
       settings.classList.add("transLeft");
       start.setAttribute("disabled","disabled");
@@ -159,7 +162,7 @@
   };
 
   function checkTray () {
-    if (tray.children.length === 0) {
+    if (tray.children.length === 0 && initialized === true) {
       celebrate.init();
       resetAuto();
     }
@@ -198,8 +201,9 @@
     }
 
     if (lvl === 4 || lvl === 1) {
-      hints.classList.add("hide");
-      hintsLeftText.classList.add("hide");
+      hints.parentNode.classList.add("invisible");
+      hints.classList.add("invisible");
+      hintsLeftText.classList.add("invisible");
       document.body.removeEventListener("keydown",showHint);
       document.body.removeEventListener("keyup", hideHint);
     }
@@ -207,8 +211,9 @@
 
   const resetHint = () => {
     hints.innerText = 3;
-    hints.classList.remove("hide");
-    hintsLeftText.classList.remove("hide");
+    hints.parentNode.classList.remove("invisible");
+    hints.classList.remove("invisible");
+    hintsLeftText.classList.remove("invisible");
   };
 
   const shufflePieces = () => {
@@ -245,6 +250,7 @@
       reset.addEventListener("click",this.endGame);
     },
     endGame: function () {
+      initialized = false;
       clonePuzzle.replace();
       startDrag.init();
       validDropZones.init();

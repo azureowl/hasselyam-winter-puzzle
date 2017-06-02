@@ -182,12 +182,16 @@ button.dash[disabled] {
   margin-right: .3em;
 }
 
-.hide-bg, .hide {
+.hide-bg {
   display: none;
 }
 
 .seal, .solved {
   opacity: .5;
+}
+
+.invisible {
+  opacity: 0;
 }
 
 .tray {
