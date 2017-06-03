@@ -57,6 +57,7 @@ li span {
   justify-content: space-around;
   overflow: hidden;
   padding: 1em;
+  position: relative;
   width: 15em;
 }
 
@@ -111,7 +112,6 @@ li span {
     transform: rotate(90deg);
     width: 11em;
   }
-  margin-bottom: 2em;
 }
 
 .level-settings.transLeft {
@@ -129,11 +129,11 @@ li span {
     }
     &:nth-child(5) {
       transition-delay: .4s;
+      &:hover .hint-details {
+        opacity: 1;
+        transform: translateY(5em);
+      }
     }
-}
-
-.start, .reset {
-  cursor: pointer;
 }
 
 .start:hover, .reset:hover {
@@ -148,6 +148,7 @@ li span {
   background-color: $bg;
   border: .3em solid $hp;
   border-radius: 50%;
+  cursor: pointer;
   display: flex;
   align-items: center;
   height: 5em;
@@ -162,7 +163,20 @@ li span {
   }
   &:nth-child(5) {
     transition-delay: .1s;
+    &:hover .hint-details {
+      opacity: 1;
+    }
   }
+}
+
+.hint-details {
+  bottom: .7em;
+  font-size: .7em;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  text-align: center;
 }
 
 button.dash {

@@ -46,6 +46,7 @@ li span {
   justify-content: space-around;
   overflow: hidden;
   padding: 1em;
+  position: relative;
   width: 15em; }
 
 .puzzle-container {
@@ -86,8 +87,7 @@ li span {
   display: flex;
   height: 8em;
   transition: transform 1s;
-  width: 100%;
-  margin-bottom: 2em; }
+  width: 100%; }
   .level-settings input {
     height: 11em;
     transform: rotate(90deg);
@@ -105,9 +105,9 @@ li span {
     transition-delay: .3s; }
   .level-settings.transLeft ~ .dash:nth-child(5) {
     transition-delay: .4s; }
-
-.start, .reset {
-  cursor: pointer; }
+    .level-settings.transLeft ~ .dash:nth-child(5):hover .hint-details {
+      opacity: 1;
+      transform: translateY(5em); }
 
 .start:hover, .reset:hover {
   color: #8acea5; }
@@ -119,6 +119,7 @@ li span {
   background-color: #1d1318;
   border: 0.3em solid #d33668;
   border-radius: 50%;
+  cursor: pointer;
   display: flex;
   align-items: center;
   height: 5em;
@@ -131,6 +132,17 @@ li span {
     transition-delay: .2s; }
   .dash:nth-child(5) {
     transition-delay: .1s; }
+    .dash:nth-child(5):hover .hint-details {
+      opacity: 1; }
+
+.hint-details {
+  bottom: .7em;
+  font-size: .7em;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  text-align: center; }
 
 button.dash {
   color: #d33668;
