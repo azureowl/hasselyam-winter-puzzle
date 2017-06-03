@@ -315,6 +315,8 @@
   // NOTE: Instant Solver! :)
   document.getElementById("magic").addEventListener("click", solveInstant);
   function solveInstant () {
+    start.setAttribute("disabled","disabled");
+    endGame.init();
     clonePuzzle.replace();
     trayParent.removeChild(tray);
     createTray();
