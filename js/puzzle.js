@@ -84,10 +84,11 @@
       clonePuzzle.clonePuzzle();
       this.shufflePieces();
       endGame.init();
+      this.bindEvents();
       settings.classList.add("transLeft");
       start.setAttribute("disabled","disabled");
       this.lvl = level;
-      this.bindEvents();
+      this.hintFired = false;
       this.hintsLeft = 0;
     },
     bindEvents: function () {
@@ -115,7 +116,10 @@
     },
     showHint: function (e) {
       if (e.keyCode === 104 || e.keyCode === 72) {
-        this.hintsLeft = parseInt(hints.innerText);
+        if (!this.hintFired) {
+          this.hintsLeft = parseInt(hints.innerText);
+          this.hintFired = true;
+        }
         if (this.hintsLeft > 0) {
           hints.innerText = this.hintsLeft - 1;
           toggleBG(unsolvedBG,solvedBG);
@@ -125,6 +129,7 @@
     },
     hideHint: function () {
       if (this.hintsLeft >= 1) {
+        this.hintFired = false;
         toggleBG(solvedBG,unsolvedBG);
       }
     }
