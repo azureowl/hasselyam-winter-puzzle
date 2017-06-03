@@ -84,10 +84,10 @@
       clonePuzzle.clonePuzzle();
       this.shufflePieces();
       endGame.init();
-      this.bindEvents();
       settings.classList.add("transLeft");
       start.setAttribute("disabled","disabled");
       this.lvl = level;
+      this.bindEvents();
       this.hintFired = false;
       this.hintsLeft = 0;
     },
