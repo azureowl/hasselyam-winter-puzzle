@@ -1,4 +1,5 @@
 (function() {
+  'use strict';
   const clock = document.querySelector(".time"),
         input = document.querySelector("input"),
         start = document.querySelector(".start"),
